@@ -40,3 +40,20 @@ def test_sin_respuesta_en_documentos_no_se_cita() -> None:
     texto = _prompt("capturista")
     assert "No lo encontré en los documentos cargados." in texto
     assert "no cites fragmentos que no responden la pregunta" in texto
+
+
+def test_lo_que_no_se_puede_hacer_desde_el_chat_dice_donde_se_hace() -> None:
+    texto = _prompt("aprobador")
+    assert "no puedes aprobar, rechazar, pagar, resolver alertas ni modificar datos" in texto
+    assert '"No puedo hacer eso desde el chat."' in texto
+    assert "aprobar y rechazar, en la pantalla Propuestas con rol aprobador" in texto
+    assert "resolver alertas, en el detalle de la factura con rol aprobador" in texto
+
+
+def test_el_adeudo_total_de_la_empresa_tiene_su_herramienta() -> None:
+    assert "para el adeudo total de la empresa usa antiguedad_saldos" in _prompt("capturista")
+
+
+def test_una_peticion_mixta_crea_la_propuesta_pendiente_y_aclara_el_resto() -> None:
+    texto = _prompt("capturista")
+    assert "crea la propuesta pendiente y aclara que lo demás no se puede" in texto
