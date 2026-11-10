@@ -5,7 +5,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from cotejo.documentos.busqueda import CONSTANTE_RRF, fusionar_rrf
+from cotejo.documentos.busqueda import CONSTANTE_RRF, Fusionado, fusionar_rrf, priorizar_propios
 from cotejo.documentos.embeddings import EmbedderDeterminista
 from cotejo.modelos import DIMENSION_EMBEDDING
 
@@ -43,3 +43,20 @@ def test_embedder_determinista_es_estable_normalizado_y_agrupa_por_palabras() ->
     assert float(np.linalg.norm(a)) == pytest.approx(1.0, abs=1e-5)
     assert float(a @ b) > float(a @ c)
     assert float(np.linalg.norm(embedder.consulta("¿?"))) == pytest.approx(1.0)
+
+
+def _fusionados(*ids: int) -> list[Fusionado]:
+    return [Fusionado(fid, 1.0 / (posicion + 1), ("vector",)) for posicion, fid in enumerate(ids)]
+
+
+def test_los_fragmentos_del_proveedor_ocupan_hasta_la_mitad_de_los_lugares() -> None:
+    orden = _fusionados(1, 2, 3, 4, 5, 6, 7, 8)
+    # 6, 7 y 8 son del proveedor consultado y venían al final.
+    assert [f.fragmento_id for f in priorizar_propios(orden, {6, 7, 8}, k=5)] == [6, 7, 8, 1, 2]
+    # Con más propios que lugares reservados, el resto compite en su orden normal.
+    assert [f.fragmento_id for f in priorizar_propios(orden, {5, 6, 7, 8}, k=4)] == [5, 6, 1, 2]
+
+
+def test_sin_fragmentos_propios_el_orden_no_cambia() -> None:
+    orden = _fusionados(1, 2, 3, 4, 5, 6)
+    assert [f.fragmento_id for f in priorizar_propios(orden, set(), k=5)] == [1, 2, 3, 4, 5]

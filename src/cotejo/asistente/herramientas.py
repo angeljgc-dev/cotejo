@@ -434,7 +434,8 @@ def _herramienta(
 _LISTA: tuple[Herramienta, ...] = (
     _herramienta(
         "buscar_proveedores",
-        "Busca proveedores por nombre o RFC. Devuelve su id, días de crédito, adeudo en pesos y situación 69-B.",
+        "Busca proveedores por nombre o RFC para obtener su id, días de crédito y situación 69-B. Para responder "
+        "cuánto se le debe a uno, usa después adeudo_proveedor con ese id.",
         esquemas.BuscarProveedores,
         buscar_proveedores,
     ),
@@ -493,6 +494,10 @@ _LISTA: tuple[Herramienta, ...] = (
 
 HERRAMIENTAS: dict[str, Herramienta] = {h.nombre: h for h in _LISTA}
 HERRAMIENTA_QUE_ESCRIBE = "proponer_pagos"
+
+
+def herramientas_por_nombre() -> dict[str, Herramienta]:
+    return {h.nombre: h for h in _LISTA}
 
 
 def herramientas_para(usuario: Usuario) -> list[Herramienta]:

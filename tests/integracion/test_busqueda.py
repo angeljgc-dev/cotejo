@@ -138,6 +138,27 @@ def test_filtro_por_proveedor_incluye_las_politicas_generales(sesion: Session) -
     assert len(uno) == 1
 
 
+def test_con_proveedor_su_contrato_va_antes_que_las_politicas_generales(sesion: Session) -> None:
+    usuario = crear_usuario(sesion)
+    propio = crear_proveedor(sesion)
+    _indexar(sesion, usuario, "contrato_propio.txt", MORA, propio.id)
+    # Seis políticas generales que coinciden mejor por palabras con la pregunta que la cláusula del contrato.
+    for numero in range(6):
+        _indexar(
+            sesion,
+            usuario,
+            f"politica_{numero}.txt",
+            f"Política {numero}: ante un retraso en pagos se avisa a tesorería.",
+        )
+    pregunta = "¿Qué pasa con un retraso en pagos?"
+    sin_proveedor = buscar(sesion, pregunta, embedder=EmbedderDeTemas())
+    assert sin_proveedor[0].documento.startswith("politica_")
+    con_proveedor = buscar(sesion, pregunta, embedder=EmbedderDeTemas(), proveedor_id=propio.id)
+    assert con_proveedor[0].documento == "contrato_propio.txt"
+    # Las políticas generales siguen apareciendo: el contrato no las desplaza a todas.
+    assert len(con_proveedor) == 5 and any(h.documento.startswith("politica_") for h in con_proveedor)
+
+
 def test_ruta_de_busqueda_devuelve_documento_pagina_y_fuentes(
     cliente: TestClient, sesion: Session, entrar_como: Entrar
 ) -> None:

@@ -209,7 +209,7 @@ def ejecutar(
     herramientas = herramientas_para(ctx.usuario)
     esquemas = [h.esquema for h in herramientas]
     mensajes: list[MensajeModelo] = [
-        MensajeModelo("system", prompt_de_sistema(ctx.config.empresa_nombre, ctx.hoy)),
+        MensajeModelo("system", prompt_de_sistema(ctx.config.empresa_nombre, ctx.hoy, ctx.usuario.rol)),
         *historial,
         MensajeModelo("user", pregunta),
     ]

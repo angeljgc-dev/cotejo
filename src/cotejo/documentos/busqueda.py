@@ -62,6 +62,18 @@ def fusionar_rrf(listas: Mapping[Fuente, Sequence[int]], k: int) -> list[Fusiona
     return [Fusionado(fid, puntajes[fid], tuple(fuentes[fid])) for fid in orden[:k]]
 
 
+def priorizar_propios(fusionados: Sequence[Fusionado], propios: set[int], k: int) -> list[Fusionado]:
+    """Pone primero los fragmentos de los documentos del proveedor consultado, hasta la mitad de los lugares.
+
+    Si alguien pregunta por un proveedor, su contrato es la fuente principal aunque una política general
+    coincida mejor por palabras. La otra mitad se deja al orden normal para que esas políticas sigan saliendo.
+    """
+    reservados = [f for f in fusionados if f.fragmento_id in propios][: (k + 1) // 2]
+    elegidos = {f.fragmento_id for f in reservados}
+    resto = [f for f in fusionados if f.fragmento_id not in elegidos]
+    return [*reservados, *resto][:k]
+
+
 def _con_filtros(
     consulta: Select[tuple[int]], proveedor_id: int | None, documento_ids: Sequence[int] | None
 ) -> Select[tuple[int]]:
@@ -132,17 +144,28 @@ def buscar(
         listas["vector"] = _por_vector(sesion, embedder.consulta(consulta), proveedor_id, documento_ids)
     if modo in ("hibrida", "texto"):
         listas["texto"] = _por_texto(sesion, normalizar(consulta), proveedor_id, documento_ids, todas_las_palabras)
-    fusionados = fusionar_rrf(listas, k)
+    fusionados = fusionar_rrf(listas, CANDIDATOS_POR_METODO * 2)
     if not fusionados:
         return []
     filas = sesion.execute(
         select(
-            Fragmento.id, Fragmento.documento_id, Documento.nombre, Fragmento.pagina, Fragmento.orden, Fragmento.texto
+            Fragmento.id,
+            Fragmento.documento_id,
+            Documento.nombre,
+            Documento.proveedor_id,
+            Fragmento.pagina,
+            Fragmento.orden,
+            Fragmento.texto,
         )
         .join(Documento, Documento.id == Fragmento.documento_id)
         .where(Fragmento.id.in_([f.fragmento_id for f in fusionados]))
     ).all()
     por_id = {fila.id: fila for fila in filas}
+    if proveedor_id is None:
+        fusionados = fusionados[:k]
+    else:
+        propios = {fila.id for fila in filas if fila.proveedor_id == proveedor_id}
+        fusionados = priorizar_propios(fusionados, propios, k)
     return [
         Hallazgo(
             fragmento_id=f.fragmento_id,
