@@ -1,0 +1,89 @@
+[project]
+name = "cotejo"
+version = "0.1.0"
+description = "Asistente de cuentas por pagar: valida CFDI 4.0, calcula adeudos y responde citando contratos."
+license = "MIT"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "fastapi==0.162.2",
+    "uvicorn==0.54.0",
+    "pydantic==2.14.3",
+    "pydantic-settings==2.16.2",
+    "python-multipart==0.0.33",
+    "sqlalchemy==2.1.8",
+    "alembic==1.20.1",
+    "psycopg[binary]==3.3.8",
+    "pgvector==0.5.1",
+    "numpy==2.4.6",
+    "lxml==6.1.3",
+    "pypdf==7.0.0",
+    "fastembed==0.9.1",
+    "openai==3.48.0",
+    "httpx2==2.16.0",
+    "mcp==2.3.0",
+    "tzdata==2026.6",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.2.0",
+    "hypothesis==6.170.15",
+    "anyio==4.16.0",
+    "ruff==0.17.4",
+    "mypy==2.4.1",
+    "types-lxml==2026.2.16",
+    "pixeltable-pgserver==0.7.2",
+    "python-stdnum==2.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cotejo"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+extend-exclude = [".pgtest", ".uv-cache", "web"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "S", "SIM", "RUF", "N", "C4", "PT", "DTZ", "T20"]
+ignore = [
+    # Los textos en español usan acentos y signos de apertura legítimos.
+    "RUF001", "RUF002", "RUF003",
+    # Las excepciones del dominio se nombran en español (ErrorApi, CuotaAgotada); el sufijo inglés no aplica.
+    "N818",
+    # Una aserción compuesta sobre el mismo objeto se lee mejor que varias sueltas.
+    "PT018",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106", "S603", "S608"]
+"scripts/**" = ["T201", "S603"]
+"src/cotejo/migraciones/**" = ["N999"]
+# La semilla usa un generador pseudoaleatorio con semilla fija para ser reproducible; no es criptografía.
+"src/cotejo/semilla/**" = ["S311"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src", "tests", "scripts"]
+mypy_path = "src"
+plugins = ["pydantic.mypy"]
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "integracion: prueba que necesita PostgreSQL",
+]
+filterwarnings = [
+    "error::sqlalchemy.exc.SAWarning",
+]

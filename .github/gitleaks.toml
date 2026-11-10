@@ -1,0 +1,10 @@
+# Reglas por omisión de gitleaks, más una excepción: la clave fija que usan las pruebas.
+# No firma nada real; está en el código a propósito para que las pruebas sean deterministas.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Clave de firma de las pruebas automáticas"
+regexTarget = "line"
+regexes = ['''clave-de-pruebas-que-no-es-secreta''']

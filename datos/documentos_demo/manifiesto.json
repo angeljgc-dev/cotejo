@@ -1,0 +1,11 @@
+{
+  "nota": "Documentos ficticios de demostración. Los PDF se generan desde fuentes/ con: python -m cotejo.documentos.semilla",
+  "documentos": [
+    {"archivo": "contrato_suministro_aceros.pdf", "proveedor": "Aceros del Bajío Ficticio"},
+    {"archivo": "contrato_transporte_sierra.md", "proveedor": "Transportes Sierra Ficticia"},
+    {"archivo": "condiciones_comerciales_empaques.pdf", "proveedor": "Empaques del Norte Ficticio"},
+    {"archivo": "politica_de_pagos.md", "proveedor": null},
+    {"archivo": "minuta_revision_proveedores.txt", "proveedor": null},
+    {"archivo": "contrato_papeleria_escaneado.pdf", "proveedor": null}
+  ]
+}

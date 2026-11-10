@@ -1,0 +1,30 @@
+# Entornos y cachés de Python
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+*.egg-info/
+build/
+dist/
+
+# PostgreSQL local de pruebas y de desarrollo
+.pgtest/
+.pglocal/
+
+# Frontend
+web/node_modules/
+web/dist/
+web/test-results/
+web/playwright-report/
+
+# Modelos descargados
+.modelos/
+
+# Variables de entorno reales: solo la plantilla va al repositorio
+.env
+.env.*
+!.env.example

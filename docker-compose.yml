@@ -1,0 +1,45 @@
+# Demo local completa: docker compose up --build y abrir http://localhost:8000
+# Para usar el asistente, pon LLM_API_KEY (y si quieres SECRET_KEY) en un archivo .env junto a este.
+
+name: cotejo
+
+services:
+  db:
+    image: pgvector/pgvector:0.8.7-pg16
+    environment:
+      POSTGRES_USER: cotejo
+      POSTGRES_PASSWORD: cotejo
+      POSTGRES_DB: cotejo
+    volumes:
+      - datos_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cotejo -d cotejo"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    image: cotejo:local
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    # Estos valores ganan sobre el archivo .env: son los que necesita la demo para funcionar.
+    environment:
+      ENTORNO: produccion
+      DATABASE_URL: postgresql://cotejo:cotejo@db:5432/cotejo
+      PORT: "8000"
+      DEMO_HABILITADA: "1"
+      SEMBRAR_SI_VACIA: "1"
+      COOKIE_SEGURA: "0"
+      CONFIAR_PROXY: "0"
+      CLAVE_TEMPORAL_SI_FALTA: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  datos_pg:

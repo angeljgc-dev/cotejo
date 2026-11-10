@@ -1,0 +1,19 @@
+# Texto con fin de línea LF en el repositorio; Git decide en cada máquina al sacar la copia.
+* text=auto
+
+# Estos corren dentro de Linux: con CRLF el contenedor no arranca.
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Los XML de CFDI se comparan byte por byte (UUID, sellos): Git no debe tocarlos.
+*.xml -text
+*.xsd -text
+
+# Binarios
+*.pdf binary
+*.png binary
+*.jpg binary
+*.woff2 binary
+*.onnx binary

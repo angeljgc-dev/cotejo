@@ -1,0 +1,59 @@
+/*
+  Paleta fría de papel de libro contable y tinta azul negra. El jade marca acción y foco; el ámbar
+  y el bermellón se reservan para alertas y bloqueos, así que nunca se usan como decoración.
+  Las parejas de texto y fondo se comprueban contra WCAG AA en src/estilos/contraste.test.ts.
+*/
+:root {
+  --papel: #f3f5f4;
+  --superficie: #ffffff;
+  --superficie-hundida: #e9edeb;
+  --tinta: #17212b;
+  --tinta-suave: #4b5966;
+  --linea: #d3dad7;
+  --linea-fuerte: #7a8682;
+
+  --jade: #0b5d52;
+  --jade-hover: #08473f;
+  --jade-claro: #e1efec;
+  --sobre-jade: #ffffff;
+
+  --ambar: #7a4a00;
+  --ambar-fondo: #fdf1d8;
+  --ambar-borde: #9a6f14;
+
+  --bermellon: #a12a1e;
+  --bermellon-fondo: #fbe7e4;
+
+  --exito: #1d6b3a;
+  --exito-fondo: #e3f2e8;
+
+  /* Escala de antigüedad: de por vencer a más de 90 días vencido. */
+  --edad-por-vencer: #3e7f74;
+  --edad-1-30: #9a7410;
+  --edad-31-60: #b85f17;
+  --edad-61-90: #a8361f;
+  --edad-mas-90: #6e1f1a;
+
+  --foco: #0b5d52;
+
+  --fuente: "Instrument Sans Variable", "Segoe UI", system-ui, sans-serif;
+  --ancho-tabla: 88%;
+
+  --t-1: 0.8125rem;
+  --t-2: 0.875rem;
+  --t-3: 1rem;
+  --t-4: 1.25rem;
+  --t-5: 1.625rem;
+  --t-6: 2.25rem;
+
+  --e-1: 0.25rem;
+  --e-2: 0.5rem;
+  --e-3: 0.75rem;
+  --e-4: 1rem;
+  --e-5: 1.5rem;
+  --e-6: 2rem;
+  --e-7: 3rem;
+
+  --radio-control: 6px;
+  --radio-panel: 4px;
+}

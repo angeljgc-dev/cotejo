@@ -1,0 +1,37 @@
+CONTRATO DE SUMINISTRO DE ACERO NÚMERO CS-2026-014
+
+Documento ficticio para demostración. Las empresas, personas e importes son inventados.
+
+Contrato de suministro que celebran, por una parte, Comercializadora Ficticia del Centro, a quien en lo sucesivo se le denominará EL CLIENTE, y por la otra Aceros del Bajío Ficticio SA de CV, a quien se le denominará EL PROVEEDOR, al tenor de las siguientes cláusulas.
+
+PRIMERA. OBJETO. EL PROVEEDOR se obliga a suministrar a EL CLIENTE lámina rolada en caliente, placa y perfiles estructurales de acero conforme a las órdenes de compra que EL CLIENTE emita durante la vigencia del contrato. Cada orden de compra indicará producto, cantidad en toneladas, precio unitario y fecha requerida de entrega.
+
+SEGUNDA. PRECIOS. Los precios se pactan en pesos mexicanos por tonelada y se mantendrán fijos durante cada trimestre calendario. EL PROVEEDOR podrá proponer un ajuste con al menos veinte días naturales de anticipación al inicio del trimestre siguiente; si EL CLIENTE no lo acepta por escrito, seguirá vigente el precio anterior. Ningún ajuste podrá exceder del ocho por ciento respecto del precio del trimestre anterior.
+
+TERCERA. PEDIDO MÍNIMO. El pedido mínimo por orden de compra es de cinco toneladas. Los pedidos menores causarán un cargo por maniobras de $1,850.00 más el impuesto al valor agregado.
+
+CUARTA. LUGAR Y PLAZO DE ENTREGA. EL PROVEEDOR entregará el material en el almacén de EL CLIENTE en León, Guanajuato, dentro de los siete días hábiles siguientes a la confirmación de cada orden de compra. El flete, las maniobras de descarga y el seguro hasta la recepción corren por cuenta de EL PROVEEDOR.
+=== página ===
+QUINTA. FACTURACIÓN. EL PROVEEDOR emitirá un comprobante fiscal digital por cada entrega, con método de pago en parcialidades o diferido, y lo enviará en formato XML y PDF al correo de cuentas por pagar de EL CLIENTE. Las facturas que no correspondan a una orden de compra recibida de conformidad serán devueltas sin responsabilidad para EL CLIENTE.
+
+SEXTA. PLAZO DE PAGO. EL CLIENTE pagará cada factura dentro de los cuarenta y cinco (45) días naturales siguientes a la fecha de emisión del comprobante fiscal, mediante transferencia electrónica a la cuenta bancaria que EL PROVEEDOR haya designado por escrito. Si el vencimiento cae en día inhábil, el pago se hará el día hábil siguiente.
+
+SÉPTIMA. DESCUENTO POR PRONTO PAGO. Si EL CLIENTE paga el total de una factura dentro de los diez (10) días naturales siguientes a su emisión, tendrá derecho a un descuento del dos por ciento (2%) sobre el subtotal de esa factura. EL PROVEEDOR documentará el descuento con una nota de crédito emitida dentro de los cinco días hábiles posteriores al pago.
+
+OCTAVA. INTERESES MORATORIOS. Si EL CLIENTE no paga en la fecha de vencimiento, cubrirá un interés moratorio del uno punto cinco por ciento (1.5%) mensual sobre el saldo insoluto, calculado por cada día de atraso y hasta la liquidación total. Cuando el atraso exceda de treinta días naturales, EL PROVEEDOR podrá suspender las entregas pendientes sin responsabilidad.
+
+NOVENA. CAMBIO DE CUENTA BANCARIA. Cualquier cambio en la cuenta bancaria de EL PROVEEDOR deberá notificarse en papel membretado, firmado por su representante legal, y confirmarse por teléfono con la persona de contacto registrada. EL CLIENTE no atenderá cambios de cuenta solicitados únicamente por correo electrónico.
+=== página ===
+DÉCIMA. GARANTÍA DE CALIDAD. EL PROVEEDOR garantiza el material contra defectos de fabricación durante doce (12) meses contados a partir de su recepción. El material que no cumpla la especificación será repuesto sin costo dentro de los diez días hábiles siguientes al aviso por escrito de EL CLIENTE, quien podrá retener el pago de la factura correspondiente hasta que la reposición se complete.
+
+DÉCIMA PRIMERA. PENA POR ENTREGA TARDÍA. Por cada día hábil de retraso en la entrega, EL PROVEEDOR pagará a EL CLIENTE una pena convencional del cero punto cinco por ciento (0.5%) del valor del material no entregado, sin que el total de la pena exceda del diez por ciento (10%) de la orden de compra. La pena se aplicará mediante nota de crédito.
+
+DÉCIMA SEGUNDA. VIGENCIA. El contrato estará vigente del 1 de enero de 2026 al 31 de diciembre de 2027 y se renovará automáticamente por periodos de un año, salvo que alguna de las partes avise por escrito a la otra su decisión de no renovarlo con al menos sesenta (60) días naturales de anticipación al vencimiento.
+
+DÉCIMA TERCERA. TERMINACIÓN ANTICIPADA. Cualquiera de las partes podrá dar por terminado el contrato sin expresión de causa mediante aviso por escrito con noventa días naturales de anticipación. Las órdenes de compra confirmadas antes del aviso se surtirán y pagarán en los términos pactados.
+
+DÉCIMA CUARTA. CONFIDENCIALIDAD. Las partes mantendrán en reserva los precios y condiciones de este contrato durante su vigencia y por dos años más.
+
+DÉCIMA QUINTA. JURISDICCIÓN. Para la interpretación y cumplimiento del contrato, las partes se someten a los tribunales competentes de la ciudad de León, Guanajuato.
+
+Firmado en León, Guanajuato, el 15 de diciembre de 2025.
