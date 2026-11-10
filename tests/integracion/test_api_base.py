@@ -318,7 +318,7 @@ def test_visitante_y_hash_de_ip(app: FastAPI, config: Settings) -> None:
     assert uno["ip_hash"] != anonimo["ip_hash"]
 
 
-def test_routers_del_area_2_estan_montados() -> None:
+def test_todos_los_routers_estan_montados() -> None:
     nombres = {r.tags[0] for r in modulo_app.ROUTERS if r.tags}
     assert {"documentos", "busqueda", "asistente", "propuestas", "sesion", "salud"} <= {str(n) for n in nombres}
 

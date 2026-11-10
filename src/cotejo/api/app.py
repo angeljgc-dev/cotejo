@@ -50,6 +50,17 @@ ROUTERS: tuple[APIRouter, ...] = (
 )
 
 
+def es_ruta_estatica_segura(ruta: str) -> bool:
+    """Valida la ruta como texto, antes de armar un Path.
+
+    En Windows, unir la carpeta con una ruta absoluta o de red (//servidor/recurso) descarta la carpeta, y
+    resolverla ya consulta ese recurso. Por eso aquí solo pasan segmentos relativos normales.
+    """
+    if not ruta or "\\" in ruta or ":" in ruta or "\x00" in ruta:
+        return False
+    return all(segmento not in ("", ".", "..") for segmento in ruta.split("/"))
+
+
 def _montar_estaticos(app: FastAPI, carpeta: Path) -> None:
     """Sirve el frontend construido; cualquier ruta que no sea archivo devuelve index.html (rutas del cliente)."""
     raiz = carpeta.resolve()
@@ -59,10 +70,10 @@ def _montar_estaticos(app: FastAPI, carpeta: Path) -> None:
     def estatico(ruta: str) -> Response:
         if ruta == "api" or ruta.startswith("api/"):
             raise ErrorApi(404, "RUTA_NO_ENCONTRADA", "La ruta solicitada no existe.")
-        candidato = (raiz / ruta).resolve()
-        # Primero la contención: así nunca se consulta el disco (ni rutas de red) fuera de la carpeta.
-        if ruta and candidato.is_relative_to(raiz) and candidato.is_file():
-            return FileResponse(candidato)
+        if es_ruta_estatica_segura(ruta):
+            candidato = (raiz / ruta).resolve()
+            if candidato.is_relative_to(raiz) and candidato.is_file():
+                return FileResponse(candidato)
         return FileResponse(indice, headers={"Cache-Control": "no-cache"})
 
 
