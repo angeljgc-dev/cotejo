@@ -119,6 +119,9 @@ def _factura(factura: FacturaResumen) -> Json:
         "total": texto(factura.total),
         "saldo": _importe(factura.saldo),
         "saldo_mxn": _importe(factura.saldo_mxn),
+        "alertas_abiertas": factura.alertas_abiertas,
+        # Verdadero si tiene una alerta bloqueante propia o de su proveedor (lista 69-B): no se puede pagar.
+        "bloqueada_para_pago": factura.tiene_bloqueante,
     }
 
 
@@ -156,6 +159,7 @@ def adeudo_proveedor(ctx: ContextoHerramienta, args: esquemas.AdeudoProveedor) -
                 for m in adeudo.adeudo_por_moneda
             ],
             "facturas": [_factura(f) for f in adeudo.facturas],
+            "facturas_bloqueadas": sum(1 for f in adeudo.facturas if f.tiene_bloqueante),
             "facturas_omitidas": adeudo.facturas_omitidas,
         },
         factura_ids=tuple(f.id for f in adeudo.facturas),
@@ -307,6 +311,10 @@ def buscar_documentos(ctx: ContextoHerramienta, args: esquemas.BuscarDocumentos)
                 {
                     "fragmento_id": h.fragmento_id,
                     "documento_no_confiable": texto_externo(h.documento, LIMITE_NOMBRE),
+                    # None en políticas generales. Un contrato de otro proveedor no responde por el consultado.
+                    "proveedor_del_documento_no_confiable": (
+                        texto_externo(h.proveedor, LIMITE_NOMBRE) if h.proveedor else None
+                    ),
                     "pagina": h.pagina,
                     "texto_no_confiable": texto_externo(h.texto),
                 }

@@ -17,7 +17,7 @@ from sqlalchemy.orm import Session
 from cotejo.documentos.embeddings import Embedder
 from cotejo.documentos.indexado import IDIOMA
 from cotejo.documentos.normalizar import normalizar
-from cotejo.modelos import Documento, Fragmento
+from cotejo.modelos import Documento, Fragmento, Proveedor
 
 Modo = Literal["hibrida", "texto", "vector"]
 Fuente = Literal["vector", "texto"]
@@ -44,6 +44,8 @@ class Hallazgo:
     texto: str
     puntaje: float
     fuentes: tuple[Fuente, ...]
+    # Nombre del proveedor al que pertenece el documento; None en políticas generales.
+    proveedor: str | None = None
 
 
 def fusionar_rrf(listas: Mapping[Fuente, Sequence[int]], k: int) -> list[Fusionado]:
@@ -153,11 +155,13 @@ def buscar(
             Fragmento.documento_id,
             Documento.nombre,
             Documento.proveedor_id,
+            Proveedor.nombre.label("proveedor_nombre"),
             Fragmento.pagina,
             Fragmento.orden,
             Fragmento.texto,
         )
         .join(Documento, Documento.id == Fragmento.documento_id)
+        .outerjoin(Proveedor, Proveedor.id == Documento.proveedor_id)
         .where(Fragmento.id.in_([f.fragmento_id for f in fusionados]))
     ).all()
     por_id = {fila.id: fila for fila in filas}
@@ -176,6 +180,7 @@ def buscar(
             texto=por_id[f.fragmento_id].texto,
             puntaje=f.puntaje,
             fuentes=f.fuentes,
+            proveedor=por_id[f.fragmento_id].proveedor_nombre,
         )
         for f in fusionados
         if f.fragmento_id in por_id
