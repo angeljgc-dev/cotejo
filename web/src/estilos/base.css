@@ -997,6 +997,8 @@ textarea {
   background: var(--papel);
   font-size: var(--t-2);
   line-height: 1.6;
+  /* El fragmento conserva los saltos de renglón del documento original. */
+  white-space: pre-line;
 }
 
 .cuota {

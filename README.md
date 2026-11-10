@@ -10,6 +10,7 @@ política de donde sale la respuesta. Puede proponer pagos, pero nunca paga solo
 aprobador decide.
 
 ![Tablero con adeudo total, antigüedad de saldos y vencimientos](docs/img/tablero.png)
+![Asistente respondiendo con la cita del contrato abierta](docs/img/asistente.png)
 ![Facturas con alertas: duplicados, totales que no cuadran y proveedores bloqueados](docs/img/facturas.png)
 ![Propuesta de pago pendiente de aprobación](docs/img/propuesta.png)
 
@@ -42,8 +43,8 @@ el chat lo explica. Para activarlo, crea un archivo `.env` junto a `docker-compo
 LLM_API_KEY=tu_llave
 ```
 
-Por omisión usa Groq con `openai/gpt-oss-120b`; para otro proveedor cambia también `LLM_BASE_URL` y
-`LLM_MODELO`.
+Por omisión apunta a Groq con `openai/gpt-oss-120b`; para otro proveedor cambia también `LLM_BASE_URL` y
+`LLM_MODELO`. La evaluación publicada se corrió con OpenAI y `gpt-4.1-mini`.
 
 ## Instalación local sin Docker
 
@@ -203,10 +204,14 @@ se mide aparte con preguntas de respuesta conocida (cuántas veces el fragmento 
 primeros 5). Y el asistente se evalúa con el modelo real en más de 40 casos, calificados por el estado de la
 base, los números y las citas, no por parecido de texto.
 
-En la medición del 9 de noviembre de 2026 (47 preguntas sobre 25 fragmentos), la búsqueda híbrida dejó el
-fragmento correcto entre los primeros 5 en 43 de 47 casos (0.915). Solo por significado fueron 42 y solo por
-palabras 38. La batería del asistente con un modelo real todavía no tiene una corrida publicada. El método y
-las tablas completas están en [docs/evaluacion.md](docs/evaluacion.md).
+Resultados publicados:
+
+- Buscador (10 de noviembre de 2026, 47 preguntas sobre 25 fragmentos): la búsqueda híbrida dejó el fragmento
+  correcto entre los primeros 5 en 44 casos (0.936). Solo por significado fueron 43 y solo por palabras 40.
+- Asistente (10 de noviembre de 2026, `gpt-4.1-mini`): 41 de 47 casos. Ataques 9 de 9, negativas 6 de 6,
+  propuestas 9 de 9, preguntas numéricas 11 de 13 y preguntas sobre documentos 6 de 10.
+
+Los seis fallos están explicados uno por uno en [docs/evaluacion.md](docs/evaluacion.md), junto con el método.
 
 ## Limitaciones
 

@@ -76,6 +76,53 @@ Modelo de embeddings `intfloat/multilingual-e5-small` (`onnx/model.onnx`), 47 pr
 | Solo texto completo (todas las palabras) | 0.213 (10/47) | 0.213 | 0/37 | 10/10 |
 | Híbrida (vector + texto, RRF) | 0.915 (43/47) | 0.747 | 33/37 | 10/10 |
 
-### Asistente
+### Recuperador, 2026-11-10
 
-Todavía no hay una corrida de la batería del asistente con un modelo real. Se corre con: python -m cotejo.evaluacion asistente
+Modelo de embeddings `intfloat/multilingual-e5-small` (`onnx/model.onnx`), 47 preguntas sobre 25 fragmentos de 5 documentos. Archivo: `recuperador_2026-11-10_intfloat-multilingual-e5-small.json`.
+
+| Búsqueda | recall@5 | MRR | Paráfrasis | Término exacto |
+|---|---|---|---|---|
+| Solo vector (significado) | 0.915 (43/47) | 0.709 | 35/37 | 8/10 |
+| Solo texto completo (alguna palabra) | 0.851 (40/47) | 0.674 | 30/37 | 10/10 |
+| Solo texto completo (todas las palabras) | 0.213 (10/47) | 0.213 | 0/37 | 10/10 |
+| Híbrida (vector + texto, RRF) | 0.936 (44/47) | 0.749 | 34/37 | 10/10 |
+
+### Asistente, 2026-11-10, modelo `gpt-4.1-mini`
+
+Proveedor `https://api.openai.com/v1`, versión de instrucciones `a62c41aff962`, commit `a701839f76a0`. Archivo: `2026-11-10_gpt-4.1-mini.json`.
+
+| Categoría | Aprobados | Total | Con error del proveedor |
+|---|---|---|---|
+| numerica | 11 | 13 | 0 |
+| documentos | 6 | 10 | 0 |
+| propuestas | 9 | 9 | 0 |
+| negativa | 6 | 6 | 0 |
+| ataque | 9 | 9 | 0 |
+| **Total** | **41** | **47** | 0 |
+
+### Cómo leer los seis casos que fallaron
+
+Dos son respuestas correctas que el calificador no reconoció. A la pregunta por un seguro que el contrato no
+menciona y a la de una cláusula de exclusividad que no existe, el asistente contestó que no estaban en los
+documentos, pero con otras palabras ("no menciona", "no se encontró"). El calificador busca una lista corta de
+frases y no se amplió después de ver el resultado.
+
+Los otros cuatro son fallas reales:
+
+- Sumó por su cuenta los grupos de saldo vencido en vez de pedir el total a una herramienta. La suma era
+  correcta, pero la regla es que el modelo no hace cuentas.
+- Dijo que las facturas de un proveedor estaban bloqueadas para pago, pero no dijo que era por la lista 69-B.
+- Respondió bien la pena por mora de un contrato, sin citar el fragmento.
+- Le preguntaron por el plazo pactado en un contrato que no está cargado y contestó con los días de crédito
+  registrados del proveedor y la política general, en vez de decir que ese contrato no está.
+
+En las cuatro corridas que se hicieron, ningún ataque cambió el estado de la base.
+
+### Corridas anteriores
+
+Esta es la cuarta corrida de la batería. Las tres primeras (41, 41 y 42 de 47) sirvieron para encontrar
+defectos del producto, que se corrigieron con su prueba: el adeudo de un proveedor se respondía sin listar sus
+facturas, un aprobador recibía una lista de pagos en texto en lugar de la explicación de que debe pedirla un
+capturista, la búsqueda no daba prioridad al contrato del proveedor consultado, y las herramientas no decían si
+una factura estaba bloqueada ni de qué proveedor era cada documento. El resultado de arriba es el de la primera
+corrida sobre el código final. Entre corridas el mismo caso puede pasar o fallar: el modelo no es determinista.
